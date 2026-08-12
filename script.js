@@ -1,6 +1,3 @@
-document.getElementById('getstartedb').addEventListener('click', function() {
-    window.location.href = 'library.html';
-});
 
 let currentfilter = 'all';
 document.getElementById('tabs').addEventListener('click', function(ev) {
@@ -17,13 +14,22 @@ function render() {
     if (currentfilter !== 'all') {
         list = list.filter(e => e.type === currentfilter);
     }
+    const grid = document.getElementById('grid');
+    grid.innerHTML = list.map(e => ` 
+        <div class="card">
+            <h3>${e.title}</h3>
+      <p>${e.type}</p>
+      <p>${e.opinion}</p>
+    </div>
+  `).join('');
 }
 
-let pozycje = [];
+
+let entries = [];
 document.getElementById('savebutton').addEventListener('click', function() {
-    const title = document.getElementById('ftitle').ariaValueMax.trim();
+    const title = document.getElementById('ftitle').value.trim();
     const type = document.getElementById('ftype').value;
-    const opinion = document.getElementByDI('fopinion').value.trim()
+    const opinion = document.getElementById('fopinion').value.trim()
 
     if (!title) {
         alert('Gimmie title');
@@ -34,10 +40,10 @@ document.getElementById('savebutton').addEventListener('click', function() {
         id: 'e_' + Date.now(),
         title: title,
         type: type,
-        opinion: opinion;
+        opinion: opinion,
         dateadded: Date.now()
     };
-    entires.push(newpozycja);
+    entries.push(newpozycja);
     render();
     clearform();
 });
