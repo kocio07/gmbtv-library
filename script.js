@@ -3,14 +3,14 @@ let currentfilter = 'all';
 document.getElementById('tabs').addEventListener('click', function(ev) {
     const button = ev.target.closest('.tab'); 
     if (!button) return;
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('a'));
     button.classList.add('a');
     currentfilter = button.dataset.type;
     render();
 });
 
 function render() {
-    let list = entires.slice();
+    let list = entries.slice();
     if (currentfilter !== 'all') {
         list = list.filter(e => e.type === currentfilter);
     }
