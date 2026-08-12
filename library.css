@@ -9,3 +9,21 @@ body{
     background-color: var(--main-color);
     color: var(--text);
 }
+
+.tab {
+    background-color: var(--surface-0);
+    color: var(--text);
+    border-radius: 5px;
+
+}
+.tab:hover{
+    transform:translateY(0);
+}
+.tab:active{
+    background-color: var(--surface-1);
+}
+.addbutton{
+    background-color: var(--surface-0);
+    color: var(--text);
+    border-radius: 5px;
+}
