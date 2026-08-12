@@ -26,6 +26,8 @@ function render() {
 
 
 let entries = [];
+loadfromstorage();
+render();
 document.getElementById('savebutton').addEventListener('click', function() {
     const title = document.getElementById('ftitle').value.trim();
     const type = document.getElementById('ftype').value;
@@ -50,4 +52,11 @@ document.getElementById('savebutton').addEventListener('click', function() {
 function clearform() {
     document.getElementById('ftitle').value = '';
     document.getElementById('fopinion').value ='';
+}
+function savetostoage() {
+    localStorage.setItem('entries', JSON.stringify(entries));
+}
+function loadfromstorage() {
+    const saved = localStorage.getItem('entries');
+    entries = saved ? JSON.parse(saved) : [];
 }

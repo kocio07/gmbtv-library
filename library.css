@@ -9,7 +9,9 @@ body{
     background-color: var(--main-color);
     color: var(--text);
 }
-
+.tabs{
+    justify-items: center;
+}
 .tab {
     margin-right:5px;
     margin-left: 5px;
