@@ -9,10 +9,10 @@
     <div  class="controlcenter" id="controlcenterxd">
         <div  class="tabs" id="tabs">
             <button class="tab a" data-type="all">All</button>
-            <button class="tab" data-type="books">Books</button>
-            <button class="tab" data-type="movies">Movies</button>
-            <button class="tab" data-type="serials">Serials</button>
-            <button class="tab" data-type="games">Games</button>
+            <button class="tab" data-type="Book">Books</button>
+            <button class="tab" data-type="Movie">Movies</button>
+            <button class="tab" data-type="Serial">Serials</button>
+            <button class="tab" data-type="Game">Games</button>
         </div>
     <div class="controlcenter1">
         <input class="searchbar" type="text" id="searchbar" placeholder="Search for a title">
@@ -23,19 +23,19 @@
    
     </div>
 
-
-    <div id="adder">
-    <input type="text" id="ftitle" placeholder="Title">
-        <select id="ftype">
-
-            <option value="books">book</option>
-            <option value="movies">movie</option>
-            <option value="serials">series</option>
-            <option value="games">game</option>
-        </select>
-        <textarea id="fopinion" placeholder="Review"></textarea>
-        <button id="savebutton">Save</button>
-
+    <div class="overlay" id="overlay">
+        <div id="adder">
+            <button class="closem" id="closem" >X</button>
+        <input type="text" id="ftitle" placeholder="Title">
+            <select id="ftype">
+                <option value="Book">Book</option>
+                <option value="Movie">Movie</option>
+                <option value="Serial">Series</option>
+                <option value="Game">Game</option>
+            </select>
+            <textarea id="fopinion" placeholder="Review"></textarea>
+            <button id="savebutton">Save</button>
+        </div>
     </div>
 
     <div id="grid">
