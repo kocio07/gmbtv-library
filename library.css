@@ -60,3 +60,31 @@ body{
     gap: 10px;
     flex: 1;
 }
+.overlay{
+    display:none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center;
+}
+.overlay.open{
+    display: flex;
+}
+.adder{
+    background: var(--surface-0);
+    padding: 24px;
+    border-radius: 8px;
+    width: 320px;
+    position: relative;
+
+}
+.closem{
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}

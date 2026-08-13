@@ -48,6 +48,7 @@ document.getElementById('savebutton').addEventListener('click', function() {
     entries.push(newpozycja);
     render();
     clearform();
+    document.getElementById('overlay').classList.remove('open');
 });
 function clearform() {
     document.getElementById('ftitle').value = '';
@@ -60,3 +61,17 @@ function loadfromstorage() {
     const saved = localStorage.getItem('entries');
     entries = saved ? JSON.parse(saved) : [];
 }
+document.getElementById('add').addEventListener('click', function() {
+    document.getElementById('overlay').classList.add('open');
+});
+
+document.getElementById('closem').addEventListener('click', function() {
+    document.getElementById('overlay').classList.remove('open');
+
+});
+
+document.getElementById('overlay').addEventListener('click', function(ev) {
+    if (ev.target.id === 'overlay') {
+        document.getElementById('overlay').classList.remove('open');
+    }
+});
