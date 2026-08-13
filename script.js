@@ -46,6 +46,7 @@ document.getElementById('savebutton').addEventListener('click', function() {
         dateadded: Date.now()
     };
     entries.push(newpozycja);
+    savetostorage();
     render();
     clearform();
     document.getElementById('overlay').classList.remove('open');
@@ -54,7 +55,7 @@ function clearform() {
     document.getElementById('ftitle').value = '';
     document.getElementById('fopinion').value ='';
 }
-function savetostoage() {
+function savetostorage() {
     localStorage.setItem('entries', JSON.stringify(entries));
 }
 function loadfromstorage() {
