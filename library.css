@@ -97,6 +97,14 @@ body{
 .adder textarea {
     resize:vertical;
 }
+.cardcover{
+    width:100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 6px;
+
+}
 .closem{
     position: absolute;
     top: 10px;

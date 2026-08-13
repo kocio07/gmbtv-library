@@ -17,7 +17,8 @@ function render() {
     const grid = document.getElementById('grid');
     grid.innerHTML = list.map(e => ` 
         <div class="card">
-            <h3>${e.title}</h3>
+        ${e.cover ? `<img src="${e.cover}" class="cardcover">` : ''}
+        <h3>${e.title}</h3>
       <p>${e.type}</p>
       <p>${e.opinion}</p>
     </div>
@@ -43,7 +44,8 @@ document.getElementById('savebutton').addEventListener('click', function() {
         title: title,
         type: type,
         opinion: opinion,
-        dateadded: Date.now()
+        dateadded: Date.now(),
+        cover: cover
     };
     entries.push(newpozycja);
     savetostorage();
@@ -54,6 +56,10 @@ document.getElementById('savebutton').addEventListener('click', function() {
 function clearform() {
     document.getElementById('ftitle').value = '';
     document.getElementById('fopinion').value ='';
+    document.getElementById('fcoverurl').value = '';
+    document.getElementById('fcoverfile').value = '';
+    document.getElementById('coverpreview').innerHTML = '';
+    cover = null;
 }
 function savetostorage() {
     localStorage.setItem('entries', JSON.stringify(entries));
@@ -76,3 +82,26 @@ document.getElementById('overlay').addEventListener('click', function(ev) {
         document.getElementById('overlay').classList.remove('open');
     }
 });
+let cover = null;
+
+document.getElementById('fcoverurl').addEventListener('input', function(ev){
+    const url = ev.target.value.trim();
+    if (url){
+         cover = url;
+         document.getElementById('coverpreview').innerHTML = `<img src="${url}" style="width:80px;">`;
+    }
+   
+});
+
+document.getElementById('fcoverfile').addEventListener('change', function(ev){
+    const file = ev.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        cover = e.target.result;
+        document.getElementById('coverpreview').innerHTML = `<img src="${cover}" style="width:80px;">`;
+    };
+    reader.readAsDataURL(file);
+});
+
