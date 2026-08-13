@@ -103,7 +103,7 @@ body{
     border-radius: 10px;
     overflow: hidden;
     width: 200px;
-    padding-bottom: 12px;
+    padding: 12px;
 }
 .cardcover{
     width:100%;
@@ -112,7 +112,7 @@ body{
     border-radius: 8px;
     margin-bottom: 6px;
     display:block;
-    border-bottom: 2px var(--subtext-1);
+    
     
 }
 .cardcover-placeholder{
@@ -128,7 +128,7 @@ body{
 #grid{
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(160px, 1fr));
-    gap: 50px;
+    gap: 58px;
     padding: 15px;
 
 }
@@ -142,3 +142,4 @@ body{
     cursor: pointer;
     font-size: 18px;
 }
+

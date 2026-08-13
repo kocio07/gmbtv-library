@@ -108,3 +108,19 @@ document.getElementById('fcoverfile').addEventListener('change', function(ev){
     reader.readAsDataURL(file);
 });
 
+async function searchbookcoers(title) {
+    const url = 'https://openlibrary.org/search.json?title=' + encodeURIComponent(title);
+    const response = await fetch(url);
+    const data = await response.json();
+
+    return data.docs
+    .filter(book => book.cover_i)
+    .slice(0, 5)
+    .map(book => ({
+        title: book.title,
+        author: book.author_name ? book.author_name[0] : '',
+        cover: `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
+    }));
+
+}
+
