@@ -97,14 +97,42 @@ body{
 .adder textarea {
     resize:vertical;
 }
+.card{
+    border: 2px solid var(--overlay-2);
+    background-color: var(--surface-1);
+    border-radius: 10px;
+    overflow: hidden;
+    width: 200px;
+    padding-bottom: 12px;
+}
 .cardcover{
     width:100%;
     aspect-ratio: 2/3;
     object-fit: cover;
     border-radius: 8px;
     margin-bottom: 6px;
+    display:block;
+    border-bottom: 2px var(--subtext-1);
+    
+}
+.cardcover-placeholder{
+    background-color: var(--surface-1);
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    
+    padding:12px;
+    font-size: 10px;
+    color: var(--subtext-1);
+}
+#grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(160px, 1fr));
+    gap: 50px;
+    padding: 15px;
 
 }
+
 .closem{
     position: absolute;
     top: 10px;

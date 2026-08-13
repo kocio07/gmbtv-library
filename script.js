@@ -17,7 +17,10 @@ function render() {
     const grid = document.getElementById('grid');
     grid.innerHTML = list.map(e => ` 
         <div class="card">
-        ${e.cover ? `<img src="${e.cover}" class="cardcover">` : ''}
+            ${e.cover 
+      ? `<img src="${e.cover}" class="cardcover">` 
+      : `<div class="cardcover cardcover-placeholder">${e.title}</div>`}
+        
         <h3>${e.title}</h3>
       <p>${e.type}</p>
       <p>${e.opinion}</p>
