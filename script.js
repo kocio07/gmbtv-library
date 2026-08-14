@@ -110,12 +110,14 @@ document.getElementById('fcoverfile').addEventListener('change', function(ev){
 });
 
 async function searchbookcovers(title) {
+    if (!title || title.trim().length < 2) return [];
     const url = 'https://openlibrary.org/search.json?title=' + encodeURIComponent(title);
     const response = await fetch(url);
     const data = await response.json();
 
     return data.docs
     .filter(book => book.cover_i)
+    .sort((a, b) => (b.edition_count || 0) - (a.edition_count || 0))
     .slice(0, 5)
     .map(book => ({
         title: book.title,
@@ -126,6 +128,7 @@ async function searchbookcovers(title) {
 }
 
 async function searchmoviecovers(title, type) {
+    if (!title || title.trim().length < 2) return [];
     const media = type === 'Movie' ? 'movie' : 'tvShow';
     const url = 'https://itunes.apple.com/search?term=' + encodeURIComponent(title) + '&media=' + media;
     const response = await fetch(url);
