@@ -1,3 +1,5 @@
+const TMDB_API_KEY = '258ae539774bd76e3b03092c23b75532';
+
 
 let currentfilter = 'all';
 document.getElementById('tabs').addEventListener('click', function(ev) {
@@ -110,38 +112,53 @@ document.getElementById('fcoverfile').addEventListener('change', function(ev){
 });
 
 async function searchbookcovers(title) {
-    if (!title || title.trim().length < 2) return [];
-    const url = 'https://openlibrary.org/search.json?title=' + encodeURIComponent(title);
+      if (!title || title.trim().length < 2) return [];
+  try {
+    const url = 'https://www.googleapis.com/books/v1/volumes?q=' + encodeURIComponent(title) + '&maxResults=10';
     const response = await fetch(url);
     const data = await response.json();
 
-    return data.docs
-    .filter(book => book.cover_i)
-    .sort((a, b) => (b.edition_count || 0) - (a.edition_count || 0))
-    .slice(0, 5)
-    .map(book => ({
-        title: book.title,
-        author: book.author_name ? book.author_name[0] : '',
-        cover: `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
-    }));
+    if (!data.items) return [];
 
+    return data.items
+      .filter(item => item.volumeInfo.imageLinks && item.volumeInfo.imageLinks.thumbnail)
+      .slice(0, 5)
+      .map(item => ({
+        title: item.volumeInfo.title,
+        cover: item.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://')
+      }));
+  } catch (err) {
+    console.log('Error, sorry mate:', err);
+    return [];
+  }
 }
 
 async function searchmoviecovers(title, type) {
-    if (!title || title.trim().length < 2) return [];
-    const media = type === 'Movie' ? 'movie' : 'tvShow';
-    const url = 'https://itunes.apple.com/search?term=' + encodeURIComponent(title) + '&media=' + media;
+  if (!title || title.trim().length < 2) return [];
+  try {
+    const endpoint = type === 'Movie' ? 'movie' : 'tv';
+    const url = 'https://api.themoviedb.org/3/search/' + endpoint 
+              + '?api_key=' + TMDB_API_KEY 
+              + '&query=' + encodeURIComponent(title)
+              + '&language=pl-PL';
+
     const response = await fetch(url);
     const data = await response.json();
 
     return data.results
-        .slice(0.5)
-        .map(item => ({
-    title: item.trackName,
-    author: item.artistName || '',
-    cover: item.artworkUrl100.replace('100x100', '600x600')
-        }));
+      .filter(item => item.poster_path)
+      .slice(0, 5)
+      .map(item => ({
+        title: type === 'Movie' ? item.title : item.name,
+        author: item.release_date || item.first_air_date || '',
+        cover: 'https://image.tmdb.org/t/p/w500' + item.poster_path
+      }));
+  } catch (err) {
+    console.log('Error, sorry lad:', err);
+    return [];
+  }
 }
+
 
 let searchtimeout;
 
