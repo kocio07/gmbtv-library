@@ -1,4 +1,4 @@
-
+let searchterm = '';
 let currentfilter = 'all';
 document.getElementById('tabs').addEventListener('click', function(ev) {
     const button = ev.target.closest('.tab'); 
@@ -13,6 +13,9 @@ function render() {
     let list = entries.slice();
     if (currentfilter !== 'all') {
         list = list.filter(e => e.type === currentfilter);
+    }
+    if (searchterm) {
+      list = list.filter(e => e.title.toLowerCase().includes(searchterm));
     }
     const grid = document.getElementById('grid');
     grid.innerHTML = list.map(e => ` 
@@ -243,3 +246,7 @@ document.getElementById('coverpreview').innerHTML = `<img src="${cover}" style="
 document.getElementById('coversearchresults').innerHTML = '';
 });
 
+document.getElementById('searchbar').addEventListener('input', function(ev){
+  searchterm = ev.target.value.trim().toLowerCase();
+  render();
+});
