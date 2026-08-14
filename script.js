@@ -1,5 +1,3 @@
-const TMDB_API_KEY = '258ae539774bd76e3b03092c23b75532';
-const GOOGLE_AP_KEY = 'AIzaSyBLqs4H1DZkHbhboCsywbnxSEPaZlL47ZA';
 
 let currentfilter = 'all';
 document.getElementById('tabs').addEventListener('click', function(ev) {
