@@ -1,5 +1,5 @@
 const TMDB_API_KEY = '258ae539774bd76e3b03092c23b75532';
-
+const GOOGLE_AP_KEY = 'AIzaSyBLqs4H1DZkHbhboCsywbnxSEPaZlL47ZA';
 
 let currentfilter = 'all';
 document.getElementById('tabs').addEventListener('click', function(ev) {
@@ -111,24 +111,55 @@ document.getElementById('fcoverfile').addEventListener('change', function(ev){
     reader.readAsDataURL(file);
 });
 
+let bookCache = {};
+
 async function searchbookcovers(title) {
-      if (!title || title.trim().length < 2) return [];
+  if (!title || title.trim().length < 2) return [];
+  
+  const cacheKey = title.toLowerCase();
+  if (bookCache[cacheKey]) {
+    return bookCache[cacheKey];  
+  }
+
   try {
-    const url = 'https://www.googleapis.com/books/v1/volumes?q=' + encodeURIComponent(title) + '&maxResults=10';
+    const url = 'https://www.googleapis.com/books/v1/volumes?q=' 
+              + encodeURIComponent('intitle:' + title)
+              + '&maxResults=15'
+              + '&printType=books'
+              + '&orderBy=relevance'
+              + '&key=' + GOOGLE_AP_KEY;
+
     const response = await fetch(url);
+    
+    if (!response.ok) {
+      console.log('Google books nie odpowiada, status:', response.status);
+      return [];
+    }
+    
     const data = await response.json();
 
     if (!data.items) return [];
 
-    return data.items
+    const searchWords = title.toLowerCase().split(' ');
+
+    const results = data.items
       .filter(item => item.volumeInfo.imageLinks && item.volumeInfo.imageLinks.thumbnail)
+      .filter(item => {
+        const itemTitle = item.volumeInfo.title.toLowerCase();
+        return searchWords.every(word => itemTitle.includes(word));
+      })
       .slice(0, 5)
       .map(item => ({
         title: item.volumeInfo.title,
+        author: item.volumeInfo.authors ? item.volumeInfo.authors[0] : '',
         cover: item.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://')
       }));
+
+    bookCache[cacheKey] = results; 
+    return results;
+
   } catch (err) {
-    console.log('Error, sorry mate:', err);
+    console.log('Błąd wyszukiwania książek:', err);
     return [];
   }
 }
@@ -140,7 +171,7 @@ async function searchmoviecovers(title, type) {
     const url = 'https://api.themoviedb.org/3/search/' + endpoint 
               + '?api_key=' + TMDB_API_KEY 
               + '&query=' + encodeURIComponent(title)
-              + '&language=pl-PL';
+              + '&language=en-US';
 
     const response = await fetch(url);
     const data = await response.json();
