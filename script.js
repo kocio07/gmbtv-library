@@ -62,6 +62,7 @@ function clearform() {
     document.getElementById('fcoverurl').value = '';
     document.getElementById('fcoverfile').value = '';
     document.getElementById('coverpreview').innerHTML = '';
+    document.getElementById('coversearchresults').innerHTML = '';
     cover = null;
 }
 function savetostorage() {
@@ -108,7 +109,7 @@ document.getElementById('fcoverfile').addEventListener('change', function(ev){
     reader.readAsDataURL(file);
 });
 
-async function searchbookcoers(title) {
+async function searchbookcovers(title) {
     const url = 'https://openlibrary.org/search.json?title=' + encodeURIComponent(title);
     const response = await fetch(url);
     const data = await response.json();
@@ -123,4 +124,73 @@ async function searchbookcoers(title) {
     }));
 
 }
+
+async function searchmoviecovers(title, type) {
+    const media = type === 'Movie' ? 'movie' : 'tvShow';
+    const url = 'https://itunes.apple.com/search?term=' + encodeURIComponent(title) + '&media=' + media;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    return data.results
+        .slice(0.5)
+        .map(item => ({
+    title: item.trackName,
+    author: item.artistName || '',
+    cover: item.artworkUrl100.replace('100x100', '600x600')
+        }));
+}
+
+let searchtimeout;
+
+document.getElementById('ftitle').addEventListener('input', function(){
+    clearTimeout(searchtimeout);
+
+    searchtimeout = setTimeout(async function(){
+        const title = document.getElementById('ftitle').value.trim();
+        const type = document.getElementById('ftype').value;
+
+        if (title.lengh < 2) {
+            document.getElementById('coversearchresults').innerHTML = '';
+            return;
+
+        }
+        const resultsbox = document.getElementById('coversearchresults');
+        resultsbox.innerHTML = 'Searching...'
+
+        let results = [];
+        if (type === 'Book') {
+            results = await searchbookcovers(title);    
+              } else {
+            results = await searchmoviecovers(title, type);
+              }
+        if (results.length === 0) {
+            resultsbox.innerHTML = 'Nothing found, sorry lad';
+            return;
+                }
+
+            resultsbox.innerHTML = results.map((r, i) => `
+              <div class="coverchoice" data-index="${i}">
+        <img src="${r.cover}">
+        <div class="coverchoice-text">
+          <strong>${r.title}</strong>
+          ${r.author ? `<span>${r.author}</span>` : ''}
+        </div>
+      </div>
+      `).join('');
+      window.lastcoverresults = results;
+    }, 500);
+});
+
+document.getElementById('coversearchresults').addEventListener('click', function(ev) {
+const choice = ev.target.closest('.coverchoice');
+if (!choice) return;
+
+const index = parseInt(choice.dataset.index);
+const picked = window.lastcoverresults[index];
+
+cover = picked.cover;
+document.getElementById('ftitle').value = picked.title;
+document.getElementById('coverpreview').innerHTML = `<img src="${cover}" style="width:80px;">`;
+document.getElementById('coversearchresults').innerHTML = '';
+});
 
