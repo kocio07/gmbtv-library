@@ -19,7 +19,7 @@ function render() {
     }
     const grid = document.getElementById('grid');
     grid.innerHTML = list.map(e => ` 
-        <div class="card">
+        <div class="card" data-id="${e.id}">
             ${e.cover 
       ? `<img src="${e.cover}" class="cardcover">` 
       : `<div class="cardcover cardcover-placeholder">${e.title}</div>`}
@@ -27,6 +27,7 @@ function render() {
         <h3>${e.title}</h3>
       <p>${e.type}</p>
       <p>${e.opinion}</p>
+      <button class="deletebutton">Delete</button>
     </div>
   `).join('');
 }
@@ -248,5 +249,20 @@ document.getElementById('coversearchresults').innerHTML = '';
 
 document.getElementById('searchbar').addEventListener('input', function(ev){
   searchterm = ev.target.value.trim().toLowerCase();
+  render();
+});
+
+document.getElementById('grid').addEventListener('click', function(ev){
+  const btn = ev.target.closest('.deletebutton');
+  if (!btn) return;
+
+  const card = btn.closest('.card');
+  const id = card.dataset.id;
+
+  const potwierdzenie = confirm('You sure about that?');
+  if (!potwierdzenie) return;
+
+  entries  = entries.filter(e => e.id !== id);
+  savetostorage();
   render();
 });
