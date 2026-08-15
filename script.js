@@ -2,7 +2,8 @@ let searchterm = '';
 let currentfilter = 'all';
 let showonlyfavs = false;
 let collections = [];
-let currentcollection = 'all'
+let currentcollection = 'all';
+let showonlybacklog = false;
 
 document.getElementById('tabs').addEventListener('click', function(ev) {
     const button = ev.target.closest('.tab'); 
@@ -42,7 +43,7 @@ function render() {
       ? `<img src="${e.cover}" class="cardcover">` 
       : `<div class="cardcover cardcover-placeholder">${e.title}</div>`}
       <button class="favbutton ${e.favorite ? 'favbutton-active' : ''}">★</button>
-      <button class="wishbutton ${e.wishlist ? 'wishbutton-active' : ''}">𖤓</button>
+      
         <h3>${e.title}</h3>
       <p>${e.type}</p>
       <p>${e.opinion}</p>
@@ -59,7 +60,8 @@ render();
 document.getElementById('savebutton').addEventListener('click', function() {
     const title = document.getElementById('ftitle').value.trim();
     const type = document.getElementById('ftype').value;
-    const opinion = document.getElementById('fopinion').value.trim()
+    const opinion = document.getElementById('fopinion').value.trim();
+    const wishlist = document.getElementById('fwishlist').checked;
 
     if (!title) {
         alert('Gimmie title');
@@ -89,6 +91,7 @@ function clearform() {
     document.getElementById('fcoverfile').value = '';
     document.getElementById('coverpreview').innerHTML = '';
     document.getElementById('coversearchresults').innerHTML = '';
+    document.getElementById('fwishlist');
     cover = null;
 }
 function savetostorage() {

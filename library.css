@@ -24,13 +24,14 @@ body{
     border-radius: 5px;
     width: 100px;
     height:27px;
+    border: 1px solid;
 
 }
 .tab:hover{
     transform:translateY(0);
 }
-.tab:active{
-    background-color: var(--surface-1);
+.tab-active{
+    background-color: var(--overlay-2);
 }
 .addbutton{
     background-color: var(--surface-0);
@@ -38,6 +39,7 @@ body{
     border-radius: 5px;
     width: 150px;
     height: 27px;
+    border: 1px solid;
 }
 .searchbar{
     background-color: var(--surface-0);
