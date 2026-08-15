@@ -46,7 +46,18 @@ body{
     border: 1px solid var(--surface-1);
     flex: 1;
 }   
+.favbutton{
+    background: none;
+    border: none;
+}
+.favbutton:hover{
+    cursor: poiner;
+    color: var(--subtext-0);
+}
+.favbutton-active{
+    color: var(--subtext-1);
 
+}
 .controlcenter{
     display: flex;
     flex-direction: row;
@@ -173,5 +184,7 @@ body{
 font-size: 11px;
 color: var(--subtext-0);
 }
+
+
 
 
