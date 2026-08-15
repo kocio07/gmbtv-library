@@ -1,3 +1,8 @@
+* {
+    box-sizing: border-box;
+}
+
+
 :root {
     --main-color: #303446;
     --surface-0: #414559;
@@ -14,6 +19,8 @@
 body{
     background-color: var(--main-color);
     color: var(--text);
+    overflow-x: hidden;
+    max-width: 110vw;
 }
 
 .tab {
@@ -48,12 +55,20 @@ body{
     border: 1px solid var(--surface-1);
     flex: 1;
 }   
+.deletebutton{
+    background-color: var(--overlay-2);
+    border-radius: 6px;
+    border: 1px solid var(--subtext-1);
+    cursor: pointer;
+}
 .favbutton{
     background: none;
     border: none;
+    cursor: pointer;
+    
 }
 .favbutton:hover{
-    cursor: poiner;
+    
     color: var(--subtext-0);
 }
 .favbutton-active{
@@ -141,7 +156,8 @@ body{
 #grid{
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(160px, 1fr));
-    gap: 58px;
+    gap: 30px;
+    max-width:100%;
     padding: 15px;
 
 }
