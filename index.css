@@ -11,13 +11,22 @@
     --subtext-1m: #b5bfe2;
 
 }
+html, body {
+  height: 100%;
+  margin: 0;
+}
 body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     background-color: var(--main-colorm);
     color: var(--textm);
 }
 .getstartedb{
     background-color: var(--surface-0m);
     color: var(--textm);
+    border: 1px solid;
+    border-radius: 6px;
 }
 
 .welcomed{
@@ -25,4 +34,9 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+.footer{
+    margin-top: auto;
+    padding: 20px;
+    text-align: center;
 }
