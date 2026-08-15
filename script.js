@@ -3,7 +3,7 @@ let currentfilter = 'all';
 let showonlyfavs = false;
 let collections = [];
 let currentcollection = 'all';
-let showonlybacklog = false;
+let showonlywishlist = false;
 
 document.getElementById('tabs').addEventListener('click', function(ev) {
     const button = ev.target.closest('.tab'); 
@@ -15,8 +15,13 @@ document.getElementById('tabs').addEventListener('click', function(ev) {
     if (button.dataset.type === 'favorite') {
       showonlyfavs = !showonlyfavs;
       currentfilter = 'all';
+    } else if (button.dataset.type === 'wishlist') {
+      showonlywishlist = !showonlywishlist;
+      showonlyfavs = false;
+      currentfilter = 'all';
     } else {
       showonlyfavs = false;
+      showonlywishlist = false;
       currentfilter = button.dataset.type;
     }
     
@@ -29,6 +34,8 @@ function render() {
 
     if (showonlyfavs) {
       list = list.filter(e => e.favorite);
+    } else if (showonlywishlist) {
+      list = list.filter(e => e.wishlist);
     } else if (currentfilter !== 'all') {
       list = list.filter(e => e.type === currentfilter);
     }
@@ -76,7 +83,7 @@ document.getElementById('savebutton').addEventListener('click', function() {
         dateadded: Date.now(),
         cover: cover,
         favorite: false,
-        wishlist: false
+        wishlist: wishlist
     };
     entries.push(newpozycja);
     savetostorage();
@@ -91,7 +98,7 @@ function clearform() {
     document.getElementById('fcoverfile').value = '';
     document.getElementById('coverpreview').innerHTML = '';
     document.getElementById('coversearchresults').innerHTML = '';
-    document.getElementById('fwishlist');
+    document.getElementById('fwishlist').checked = false;
     cover = null;
 }
 function savetostorage() {
