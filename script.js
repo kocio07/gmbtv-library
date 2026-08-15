@@ -1,19 +1,35 @@
 let searchterm = '';
 let currentfilter = 'all';
+let showonlyfavs = false;
+
 document.getElementById('tabs').addEventListener('click', function(ev) {
     const button = ev.target.closest('.tab'); 
     if (!button) return;
+
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('a'));
     button.classList.add('a');
-    currentfilter = button.dataset.type;
+    
+    if (button.dataset.type === 'favorite') {
+      showonlyfavs = !showonlyfavs;
+      currentfilter = 'all';
+    } else {
+      showonlyfavs = false;
+      currentfilter = button.dataset.type;
+    }
+    
+
     render();
 });
 
 function render() {
     let list = entries.slice();
-    if (currentfilter !== 'all') {
-        list = list.filter(e => e.type === currentfilter);
+
+    if (showonlyfavs) {
+      list = list.filter(e => e.favorite);
+    } else if (currentfilter !== 'all') {
+      list = list.filter(e => e.type === currentfilter);
     }
+    
     if (searchterm) {
       list = list.filter(e => e.title.toLowerCase().includes(searchterm));
     }
@@ -23,7 +39,7 @@ function render() {
             ${e.cover 
       ? `<img src="${e.cover}" class="cardcover">` 
       : `<div class="cardcover cardcover-placeholder">${e.title}</div>`}
-        
+      <button class="favbutton ${e.favorite ? 'favbutton-active' : ''}">★</button>
         <h3>${e.title}</h3>
       <p>${e.type}</p>
       <p>${e.opinion}</p>
@@ -36,6 +52,7 @@ function render() {
 let entries = [];
 loadfromstorage();
 render();
+
 document.getElementById('savebutton').addEventListener('click', function() {
     const title = document.getElementById('ftitle').value.trim();
     const type = document.getElementById('ftype').value;
@@ -52,7 +69,8 @@ document.getElementById('savebutton').addEventListener('click', function() {
         type: type,
         opinion: opinion,
         dateadded: Date.now(),
-        cover: cover
+        cover: cover,
+        favorite: false
     };
     entries.push(newpozycja);
     savetostorage();
@@ -253,6 +271,16 @@ document.getElementById('searchbar').addEventListener('input', function(ev){
 });
 
 document.getElementById('grid').addEventListener('click', function(ev){
+  const favbtn = ev.target.closest('.favbutton');
+  if (favbtn) {
+    const card = favbtn.closest('.card');
+    const id = card.dataset.id;
+    const entry = entries.find(e => e.id === id);
+    entry.favorite = !entry.favorite;
+    savetostorage();
+    render();
+    return;
+  }
   const btn = ev.target.closest('.deletebutton');
   if (!btn) return;
 
@@ -266,3 +294,7 @@ document.getElementById('grid').addEventListener('click', function(ev){
   savetostorage();
   render();
 });
+
+
+
+
