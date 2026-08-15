@@ -1,6 +1,8 @@
 let searchterm = '';
 let currentfilter = 'all';
 let showonlyfavs = false;
+let collections = [];
+let currentcollection = 'all'
 
 document.getElementById('tabs').addEventListener('click', function(ev) {
     const button = ev.target.closest('.tab'); 
@@ -40,6 +42,7 @@ function render() {
       ? `<img src="${e.cover}" class="cardcover">` 
       : `<div class="cardcover cardcover-placeholder">${e.title}</div>`}
       <button class="favbutton ${e.favorite ? 'favbutton-active' : ''}">★</button>
+      <button class="wishbutton ${e.wishlist ? 'wishbutton-active' : ''}">𖤓</button>
         <h3>${e.title}</h3>
       <p>${e.type}</p>
       <p>${e.opinion}</p>
@@ -70,7 +73,8 @@ document.getElementById('savebutton').addEventListener('click', function() {
         opinion: opinion,
         dateadded: Date.now(),
         cover: cover,
-        favorite: false
+        favorite: false,
+        wishlist: false
     };
     entries.push(newpozycja);
     savetostorage();
