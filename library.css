@@ -48,9 +48,10 @@ body{
     height: 27px;
     border: 1px solid;
 }
-.getstartedbutton:hover{
+.addbutton:hover{
     transform: translateY(-3px);
 }
+
 .searchbar{
     background-color: var(--surface-0);
     color: var(--text);

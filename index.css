@@ -43,3 +43,6 @@ body{
 .getstartedb:hover{
     transform: translateY(-3px);
 }
+.getstartedb:active{
+    background-color: var(--overlay-2m);
+}

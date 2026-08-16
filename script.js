@@ -310,5 +310,5 @@ document.getElementById('grid').addEventListener('click', function(ev){
 });
 
 
-
+document.getElementById('entriescounter').textContent = list.length + 'entries';
 
