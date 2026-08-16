@@ -44,6 +44,7 @@ function render() {
       list = list.filter(e => e.title.toLowerCase().includes(searchterm));
     }
     const grid = document.getElementById('grid');
+    document.getElementById('entriescounter').textContent = list.length + ' entries';
     grid.innerHTML = list.map(e => ` 
         <div class="card" data-id="${e.id}">
             ${e.cover 
@@ -310,5 +311,5 @@ document.getElementById('grid').addEventListener('click', function(ev){
 });
 
 
-document.getElementById('entriescounter').textContent = list.length + 'entries';
+
 
