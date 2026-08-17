@@ -77,7 +77,15 @@ document.getElementById('savebutton').addEventListener('click', function() {
         alert('Gimmie title');
         return;
     }
-
+    if (editngid) {
+      const entry = entries.find( e => e.id === editngid);
+      entry.title = title;
+      entry.type = type;
+      entry.opinion = opinion;
+      entry.wishlist = wishlist;
+      entry.cover = cover;
+    } else {
+      
     const newpozycja = {
         id: 'e_' + Date.now(),
         title: title,
@@ -87,8 +95,10 @@ document.getElementById('savebutton').addEventListener('click', function() {
         cover: cover,
         favorite: false,
         wishlist: wishlist
-    };
-    entries.push(newpozycja);
+     };
+      entries.push(newpozycja);
+    }
+
     savetostorage();
     render();
     clearform();
@@ -103,6 +113,7 @@ function clearform() {
     document.getElementById('coversearchresults').innerHTML = '';
     document.getElementById('fwishlist').checked = false;
     cover = null;
+    editngid = null;
 }
 function savetostorage() {
     localStorage.setItem('entries', JSON.stringify(entries));
@@ -112,6 +123,7 @@ function loadfromstorage() {
     entries = saved ? JSON.parse(saved) : [];
 }
 document.getElementById('add').addEventListener('click', function() {
+    clearform();
     document.getElementById('overlay').classList.add('open');
 });
 
