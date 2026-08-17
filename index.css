@@ -46,3 +46,11 @@ body{
 .getstartedb:active{
     background-color: var(--overlay-2m);
 }
+
+.features{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
