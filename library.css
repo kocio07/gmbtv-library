@@ -212,6 +212,26 @@ body{
 font-size: 11px;
 color: var(--subtext-0);
 }
+.editbutton{
+    background-color: var(--overlay-2);
+    border-radius: 6px;
+    border: 1px solid var(--subtext-1);
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media (max-width: 600px) {
 .controlcenter{
