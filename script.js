@@ -4,6 +4,7 @@ let showonlyfavs = false;
 let collections = [];
 let currentcollection = 'all';
 let showonlywishlist = false;
+let editngid = null;
 
 document.getElementById('tabs').addEventListener('click', function(ev) {
     const button = ev.target.closest('.tab'); 
@@ -55,6 +56,7 @@ function render() {
         <h3>${e.title}</h3>
       <p>${e.type}</p>
       <p>${e.opinion}</p>
+      <button class="editbutton">Edit</button>
       <button class="deletebutton">Delete</button>
     </div>
   `).join('');
@@ -296,6 +298,14 @@ document.getElementById('grid').addEventListener('click', function(ev){
     render();
     return;
   }
+
+  const editbtn = ev.target.closest('.editbutton');
+  if (editbtn) {
+    const card = editbtn.closest('.card');
+    const id = card.dataset.id;
+    openeditform(id);
+    return;
+  }
   const btn = ev.target.closest('.deletebutton');
   if (!btn) return;
 
@@ -310,6 +320,23 @@ document.getElementById('grid').addEventListener('click', function(ev){
   render();
 });
 
+function openeditform(id) {
+  const entry = entries.find(e => e.id === id);
+  if (!entry) return;
 
+  editngid = id;
+
+  document.getElementById('ftitle').value = entry.title;
+  document.getElementById('ftype').value = entry.type;
+  document.getElementById('fopinion').value = entry.opinion;
+document.getElementById('fwishlist').checked = entry.wishlist || false;
+
+cover = entry.cover;
+if (entry.cover) {
+  document.getElementById('coverpreview').innerHTML = `<img src="${entry.cover}" style="width:80px;">`;
+}
+
+document.getElementById('overlay').classList.add('open');
+}
 
 
